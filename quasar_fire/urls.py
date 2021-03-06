@@ -20,6 +20,6 @@ from django.urls import (
 )
 
 urlpatterns = [
+    path('', include('quasar_fire_app.urls')),
     path('admin/', admin.site.urls),
-    path('api/', include('quasar_fire_app.urls')),
 ]

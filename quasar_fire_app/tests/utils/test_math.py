@@ -2,7 +2,6 @@ from parameterized import parameterized
 
 from django.test import TestCase
 
-from quasar_fire_app.domain.get_message import get_message
 from quasar_fire_app.utils.math import is_close
 
 class TestCaseIsClose(TestCase):

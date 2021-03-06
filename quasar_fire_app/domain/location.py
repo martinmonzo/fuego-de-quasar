@@ -72,3 +72,8 @@ def get_location(distances: List[float]) -> Tuple[float, float]:
         raise Exception('The retrieved value does is not at the specified distances from the satellites.')
     
     return round(x, ROUND_SIGNIFICANT_DECIMALS), round(y, ROUND_SIGNIFICANT_DECIMALS)
+
+
+def get_distance_by_satellite(satellites, satellite_name):
+    satellite = next((sat for sat in satellites if sat['name'] == satellite_name), {})
+    return satellite['distance']

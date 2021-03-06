@@ -1,6 +1,7 @@
 import math
 
 APPROXIMATION_CONSTANT = 1e-3
+ROUND_SIGNIFICANT_DECIMALS = 3
 
 
 def is_close(number1, number2):

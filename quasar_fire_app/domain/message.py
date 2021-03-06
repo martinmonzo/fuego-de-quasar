@@ -8,7 +8,7 @@ def get_message(messages: List[List[str]]) -> str:
         - messages: List of list of words retrieved in each satellite.
             Every item in this argument represents the list of words retrieved in the satellite.
                 Every string in the item represents a word retrieved in the satellite.
-                    If the string is blank ('') it means that the word wasn't properly retrieved.
+                    If the string is blank (''), it means that the word wasn't properly retrieved.
     
     Returns:
         A string that represent the original message sent by the transmitter.

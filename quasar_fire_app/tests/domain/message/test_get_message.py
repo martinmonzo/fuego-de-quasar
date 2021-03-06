@@ -5,7 +5,7 @@ from quasar_fire_app.domain.message import get_message
 
 class TestCaseGetMessage(TestCase):
 
-    def test_should_return_false_for_messages_of_different_length(self):
+    def test_should_raise_exception_for_messages_of_different_length(self):
         """
         Test that get_message returns False when the messages 
         received by each satellite have different lengths.
@@ -20,7 +20,7 @@ class TestCaseGetMessage(TestCase):
         
         assert error.exception.args[0] == 'The messages received by the satellites does not have the same length.'
     
-    def test_should_return_false_for_missing_word_in_all_messages(self):
+    def test_should_raise_exception_for_missing_word_in_all_messages(self):
         """
         Test that get_message returns False when every
         message has a blank word ("") in the same position.
@@ -35,7 +35,7 @@ class TestCaseGetMessage(TestCase):
 
         assert error.exception.args[0] == 'The word at this position could not be received by any satellite.'
     
-    def test_should_return_false_for_messages_with_different_word_in_same_position(self):
+    def test_should_raise_exception_for_messages_with_different_word_in_same_position(self):
         """
         Test that get_message returns False when some of the
         messages have 2 different words in the same position.

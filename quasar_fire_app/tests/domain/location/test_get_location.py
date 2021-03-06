@@ -7,7 +7,7 @@ from quasar_fire_app.domain.location import get_location
 
 class TestCaseGetLocation(TestCase):
 
-    def test_should_return_false_for_distances_that_dont_match_any_point(self):
+    def test_should_raise_exception_for_distances_that_dont_match_any_point(self):
         """
         Test that get_location returns False when the distances to the
         satellites are not consistent at any point in the plane, that is, 
@@ -30,7 +30,7 @@ class TestCaseGetLocation(TestCase):
         assert error.exception.args[0] == 'The retrieved value does is not at the specified distances from the satellites.'
     
     @patch('quasar_fire_app.domain.location.is_close', return_value=False)
-    def test_should_return_false_if_isclose_returns_false_for_some_point(self, patch_is_close):
+    def test_should_raise_exception_if_isclose_returns_false_for_some_point(self, patch_is_close):
         """
         Test that get_location returns False when the method is_close returns False, which means
         that the compared numbers aren't enough similar or their difference isn't enough little.
@@ -46,7 +46,7 @@ class TestCaseGetLocation(TestCase):
     
     def test_should_return_some_xy_point_for_distances_that_match_a_point(self):
         """
-        Test that get_location returns True when the distances to the
+        Test that get_location returns a point (X, Y) when the distances to the
         satellites are consistent at one point in the plane, that is, 
         the circumferences around each satellite have one point in common.
         """

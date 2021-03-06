@@ -21,7 +21,7 @@ def get_message(messages: List[List[str]]) -> str:
 
     # If the lists don't have the same length, then the original message can not be determined.
     if not (message_length == len(second_message) == len(third_message)):
-        return False
+        raise Exception('The messages received by the satellites does not have the same length.')
 
     original_message = []
     for i in range(message_length):
@@ -29,12 +29,19 @@ def get_message(messages: List[List[str]]) -> str:
         # If there's a word that wasn't received by any satellite, 
         # then the original message can not be determined.
         if not (current_word):
-            return False
+            raise Exception('The word at this position could not be received by any satellite.')
         
         # If different satellites receive distinct words at the same position, 
         # then the original message is ambiguous and it can not be determined.
-        if first_message[i] + second_message[i] + third_message[i] != current_word:
-            return False
+        # So, we create a set of the words that were received at this position,
+        # and we expect this set to have only one word.
+        non_blank_words_received_in_position_i = {
+            word for word 
+            in [first_message[i], second_message[i], third_message[i]]
+            if word != ""
+        }
+        if non_blank_words_received_in_position_i != set([current_word]):
+            raise Exception('Different words were received by the satellites at this position.')
         
         original_message.append(current_word)
     

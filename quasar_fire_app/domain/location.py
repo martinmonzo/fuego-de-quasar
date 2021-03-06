@@ -1,4 +1,5 @@
 from typing import (
+    Dict,
     List,
     Tuple,
 )
@@ -74,6 +75,20 @@ def get_location(distances: List[float]) -> Tuple[float, float]:
     return round(x, ROUND_SIGNIFICANT_DECIMALS), round(y, ROUND_SIGNIFICANT_DECIMALS)
 
 
-def get_distance_by_satellite(satellites, satellite_name):
+def get_distance_by_satellite(
+    satellites: List[Dict],
+    satellite_name: str,
+) -> float:
+    """
+    Retrieve the distance from the transmitter to a specific satellite, given its
+    distances to every satellite, filtering by the desired satellite name.
+
+    Args:
+        - satellites: List of dicts that represent each satellite.
+        - satellite_name: name of the satellite to filter by.
+    
+    Returns:
+        A float that represents the distance from the transmitter to the desired satellite.
+    """
     satellite = next((sat for sat in satellites if sat['name'] == satellite_name), {})
     return satellite['distance']

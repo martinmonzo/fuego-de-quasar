@@ -39,4 +39,4 @@ class TestCaseGetDistanceBySatellite(TestCase):
         """
         result = get_distance_by_satellite(self.satellites, 'third')
 
-        assert result is 50
+        assert result == 50

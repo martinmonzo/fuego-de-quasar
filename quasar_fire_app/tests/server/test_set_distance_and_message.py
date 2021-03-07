@@ -5,7 +5,7 @@ from django.test import TestCase
 from rest_framework.exceptions import APIException
 from rest_framework.test import APIRequestFactory
 
-from quasar_fire_app.server.set_distance_and_message import SetDistanceAndMessageAction
+from quasar_fire_app.server.set_distance_and_message import SetDistanceAndMessage
 
 
 class TestCaseSetDistanceAndMessageAction(TestCase):
@@ -26,17 +26,17 @@ class TestCaseSetDistanceAndMessageAction(TestCase):
 
     def test_should_raise_api_exception_if_kwargs_do_not_have_satellite_name(self):
         """
-        Test that SetDistanceAndMessageAction(request) raises 
+        Test that SetDistanceAndMessage(request) raises 
         APIException because no kwargs['satellite_name'] is sent. 
         """
         request, satellite_name = self.post({'fake-key': []})
 
         with self.assertRaises(APIException):
-            SetDistanceAndMessageAction(request)
+            SetDistanceAndMessage(request)
     
     def test_should_raise_api_exception_if_request_do_not_have_distance(self):
         """
-        Test that SetDistanceAndMessageAction(request, satellite_name='kenobi')
+        Test that SetDistanceAndMessage(request, satellite_name='kenobi')
         raises APIException because no distance is sent in the request. 
         """
         request, satellite_name = self.post(
@@ -45,11 +45,11 @@ class TestCaseSetDistanceAndMessageAction(TestCase):
         )
 
         with self.assertRaises(APIException):
-            SetDistanceAndMessageAction(request, satellite_name=satellite_name)
+            SetDistanceAndMessage(request, satellite_name=satellite_name)
 
     def test_should_raise_api_exception_if_request_do_not_have_message(self):
         """
-        Test that SetDistanceAndMessageAction(request, satellite_name='kenobi')
+        Test that SetDistanceAndMessage(request, satellite_name='kenobi')
         raises APIException because no distance is sent in the request. 
         """
         request, satellite_name = self.post(
@@ -58,12 +58,12 @@ class TestCaseSetDistanceAndMessageAction(TestCase):
         )
 
         with self.assertRaises(APIException):
-            SetDistanceAndMessageAction(request, satellite_name=satellite_name)
+            SetDistanceAndMessage(request, satellite_name=satellite_name)
 
     @patch('quasar_fire_app.server.set_distance_and_message.update_satellite')
     def test_should_call_update_satellite_if_data_is_valid(self, patch_update_satellite):
         """
-        Test that GetLocationAndMessageAction(request, satellite_name='kenobi')
+        Test that SetDistanceAndMessage(request, satellite_name='kenobi')
         works successfully, that is, that update_satellite will be called.
         """
         distance = 100.5
@@ -77,6 +77,6 @@ class TestCaseSetDistanceAndMessageAction(TestCase):
             'kenobi',
         )
 
-        SetDistanceAndMessageAction(request, satellite_name=satellite_name)
+        SetDistanceAndMessage(request, satellite_name=satellite_name)
 
         patch_update_satellite.assert_called_once_with(satellite_name, distance, message)

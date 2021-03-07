@@ -2,7 +2,7 @@ from quasar_fire_app.domain.satellite import update_satellite
 from quasar_fire_app.server.base import BaseAction
 
 
-class SetDistanceAndMessageAction(BaseAction):
+class SetDistanceAndMessage(BaseAction):
 
     def __init__(self, request, **kwargs):
         super().__init__(request, **kwargs)

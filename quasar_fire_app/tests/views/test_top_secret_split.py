@@ -7,7 +7,7 @@ from rest_framework import status
 from rest_framework.exceptions import APIException
 from rest_framework.test import APIClient
 
-from quasar_fire_app.server.set_distance_and_message import SetDistanceAndMessageAction
+from quasar_fire_app.server.set_distance_and_message import SetDistanceAndMessage
 
 
 class TestCaseTopSecretSplitPost(TestCase):
@@ -34,7 +34,7 @@ class TestCaseTopSecretSplitPost(TestCase):
 
         assert response.status_code == status.HTTP_404_NOT_FOUND
 
-    @patch.object(SetDistanceAndMessageAction, 'validate', side_effect=APIException())
+    @patch.object(SetDistanceAndMessage, 'validate', side_effect=APIException())
     def test_should_return_404_response_raises_api_exception(self, patch_validate):
         """
         Test that the view returns a response code 404 

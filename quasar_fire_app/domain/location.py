@@ -1,23 +1,18 @@
-from typing import (
-    Dict,
-    List,
-    Tuple,
-)
-
-from quasar_fire_app.models.satellite import Satellite
+from quasar_fire_app.domain.satellite import get_coordinates_by_satellite_name
 from quasar_fire_app.utils.math import (
     is_close,
     ROUND_SIGNIFICANT_DECIMALS,
 )
 
 
-def get_location(distances: List[float]) -> Tuple[float, float]:
-    """Retrieve the location (X,Y) of a transmitter, given 
-    its distance from each satellite, if it's posible to be determined.
+def get_transmitter_location(distances):
+    """
+    Retrieve the location (X,Y) of a transmitter, given its 
+    distance to each satellite, if it's posible to be determined.
 
     TO CONSIDER:
         The problem requires a trilateration formula in order to be solved. The issue is that 
-        the trilateration formula returns a tuple (X, Y) that could be right or not (in case 
+        the trilateration formula returns a tuple (X,Y) that could be right or not (in case 
         that the problem doesn't have a solution, the value returned by this formula will be wrong). 
         
         So, to determine whether the solution of the formula is right or not, we need to check if 
@@ -36,20 +31,17 @@ def get_location(distances: List[float]) -> Tuple[float, float]:
         arbitrary error constant that I defined (APPROXIMATION_CONSTANT = 1e-3)
 
     Args:
-        - distances: List of floats that represent the distance from the transmitter to each satellite.
+        - distances (list[float]): distance from the transmitter to each satellite.
     
     Returns:
-        A tuple(float, float) that represent X and Y coordinates of the transmitter.
+        tuple(float, float): (X,Y) coordinates of the transmitter.
     """
     # We assume that the first distance retrieved is the distance from the transmitter to Kenobi
-    kenobi = Satellite.objects.get(name='kenobi')
-    x1,y1 = kenobi.x_position, kenobi.y_position
+    x1,y1 = get_coordinates_by_satellite_name('kenobi')
     # We assume that the second distance retrieved is the distance from the transmitter to Skywalker
-    skywalker = Satellite.objects.get(name='skywalker')
-    x2,y2 = skywalker.x_position, skywalker.y_position
+    x2,y2 = get_coordinates_by_satellite_name('skywalker')
     # We assume that the third distance retrieved is the distance from the transmitter to Sato
-    sato = Satellite.objects.get(name='sato')
-    x3,y3 = sato.x_position, sato.y_position
+    x3,y3 = get_coordinates_by_satellite_name('sato')
     
     r1 = distances[0]
     r2 = distances[1]
@@ -70,25 +62,6 @@ def get_location(distances: List[float]) -> Tuple[float, float]:
         and is_close((x-x2)**2+(y-y2)**2, r2**2)
         and is_close((x-x3)**2+(y-y3)**2, r3**2)
     ):
-        raise Exception('The retrieved value does is not at the specified distances from the satellites.')
+        raise Exception('The retrieved value is not at the specified distances from the satellites.')
     
     return round(x, ROUND_SIGNIFICANT_DECIMALS), round(y, ROUND_SIGNIFICANT_DECIMALS)
-
-
-def get_distance_by_satellite(
-    satellites: List[Dict],
-    satellite_name: str,
-) -> float:
-    """
-    Retrieve the distance from the transmitter to a specific satellite, given its
-    distances to every satellite, filtering by the desired satellite name.
-
-    Args:
-        - satellites: List of dicts that represent each satellite.
-        - satellite_name: name of the satellite to filter by.
-    
-    Returns:
-        A float that represents the distance from the transmitter to the desired satellite.
-    """
-    satellite = next((sat for sat in satellites if sat['name'] == satellite_name), {})
-    return satellite['distance']

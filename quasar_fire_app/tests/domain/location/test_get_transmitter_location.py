@@ -2,14 +2,14 @@ from mock import patch
 
 from django.test import TestCase
 
-from quasar_fire_app.domain.location import get_location
+from quasar_fire_app.domain.location import get_transmitter_location
 
 
-class TestCaseGetLocation(TestCase):
+class TestCaseGetTransmitterLocation(TestCase):
 
     def test_should_raise_exception_for_distances_that_dont_match_any_point(self):
         """
-        Test that get_location returns False when the distances to the
+        Test that get_transmitter_location returns False when the distances to the
         satellites are not consistent at any point in the plane, that is, 
         the circumferences around each satellite do not share any point in common.
         """
@@ -25,14 +25,14 @@ class TestCaseGetLocation(TestCase):
         distance_to_sato = 100
 
         with self.assertRaises(Exception) as error:
-            get_location([distance_to_kenobi, distance_to_skywalker, distance_to_sato])
+            get_transmitter_location([distance_to_kenobi, distance_to_skywalker, distance_to_sato])
 
-        assert error.exception.args[0] == 'The retrieved value does is not at the specified distances from the satellites.'
+        assert error.exception.args[0] == 'The retrieved value is not at the specified distances from the satellites.'
     
     @patch('quasar_fire_app.domain.location.is_close', return_value=False)
     def test_should_raise_exception_if_isclose_returns_false_for_some_point(self, patch_is_close):
         """
-        Test that get_location returns False when the method is_close returns False, which means
+        Test that get_transmitter_location returns False when the method is_close returns False, which means
         that the compared numbers aren't enough similar or their difference isn't enough little.
         """
         distance_to_kenobi = 100
@@ -40,13 +40,13 @@ class TestCaseGetLocation(TestCase):
         distance_to_sato = 120
 
         with self.assertRaises(Exception) as error:
-            get_location([distance_to_kenobi, distance_to_skywalker, distance_to_sato])
+            get_transmitter_location([distance_to_kenobi, distance_to_skywalker, distance_to_sato])
 
-        assert error.exception.args[0] == 'The retrieved value does is not at the specified distances from the satellites.'
+        assert error.exception.args[0] == 'The retrieved value is not at the specified distances from the satellites.'
     
     def test_should_return_some_xy_point_for_distances_that_match_a_point(self):
         """
-        Test that get_location returns a point (X, Y) when the distances to the
+        Test that get_transmitter_location returns a point (X,Y) when the distances to the
         satellites are consistent at one point in the plane, that is, 
         the circumferences around each satellite have one point in common.
         """
@@ -58,6 +58,6 @@ class TestCaseGetLocation(TestCase):
 
         expected_point = (300, 300)
 
-        result = get_location([distance_to_kenobi, distance_to_skywalker, distance_to_sato])
+        result = get_transmitter_location([distance_to_kenobi, distance_to_skywalker, distance_to_sato])
 
         assert result == expected_point

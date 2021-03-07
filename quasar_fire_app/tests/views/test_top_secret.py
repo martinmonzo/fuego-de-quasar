@@ -6,7 +6,7 @@ from rest_framework import status
 from rest_framework.exceptions import APIException
 from rest_framework.test import APIClient
 
-from quasar_fire_app.server.get_location_and_message import GetLocationAndMessageAction
+from quasar_fire_app.server.get_location_and_message_by_satellites import GetLocationAndMessageBySatellites
 
 
 class TestCaseTopSecretPost(TestCase):
@@ -99,7 +99,7 @@ class TestCaseTopSecretPost(TestCase):
 
         assert response.status_code == status.HTTP_404_NOT_FOUND
 
-    @patch.object(GetLocationAndMessageAction, 'validate', side_effect=APIException())
+    @patch.object(GetLocationAndMessageBySatellites, 'validate', side_effect=APIException())
     def test_should_return_404_response_raises_api_exception(self, patch_validate):
         """
         Test that the view returns a response code 404 

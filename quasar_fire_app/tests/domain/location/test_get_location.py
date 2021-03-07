@@ -61,4 +61,3 @@ class TestCaseGetLocation(TestCase):
         result = get_location([distance_to_kenobi, distance_to_skywalker, distance_to_sato])
 
         assert result == expected_point
-    

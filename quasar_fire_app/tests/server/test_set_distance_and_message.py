@@ -2,7 +2,6 @@ import json
 from mock import patch
 
 from django.test import TestCase
-
 from rest_framework.exceptions import APIException
 from rest_framework.test import APIRequestFactory
 
@@ -11,9 +10,10 @@ from quasar_fire_app.server.set_distance_and_message import SetDistanceAndMessag
 
 class TestCaseSetDistanceAndMessageAction(TestCase):
 
+    post_url = '/topsecret_split/{}'
+    
     def setUp(self):
         self.factory = APIRequestFactory()
-        self.post_url = '/topsecret_split/{}'
 
     def post(self, data, satellite_name=''):
         request = self.factory.post(

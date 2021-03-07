@@ -1,8 +1,8 @@
-from quasar_fire_app.domain.message import get_message
 from quasar_fire_app.domain.location import (
     get_distance_by_satellite,
     get_location,
 )
+from quasar_fire_app.domain.message import get_message
 from quasar_fire_app.server.base import BaseAction
 
 

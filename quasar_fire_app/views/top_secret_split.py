@@ -34,7 +34,7 @@ class TopSecretSplitAPIView(APIView):
             )
         except APIException as ex:
             return Response(
-                'ERROR: There is no enough information.',
+                {'error': 'There is no enough information.'},
                 status=status.HTTP_404_NOT_FOUND,
             )
 

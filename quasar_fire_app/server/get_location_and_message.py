@@ -23,7 +23,6 @@ class GetLocationAndMessage(BaseAction):
         if is_there_any_unknown_distance(satellites_info):
             raise APIException("The distance to at least one satellite could not be determined.")
         
-        import pdb;pdb.set_trace()
         if is_there_any_unknown_message(satellites_info):
             raise APIException("At least one satellite did not receive any message.")
 

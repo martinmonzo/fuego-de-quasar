@@ -12,16 +12,18 @@ from quasar_fire_app.server.get_location_and_message import GetLocationAndMessag
 from quasar_fire_app.server.set_distance_and_message import SetDistanceAndMessage
 
 
-class TestCaseTopSecretSplitPost(TestCase):
+class BaseTestCaseTopSecretSplit(TestCase):
 
-    post_url = '/topsecret_split/{}/'
-    
+    url = '/topsecret_split/{}/'
+
     def setUp(self):
         self.client = APIClient()
 
+class TestCaseTopSecretSplitPost(BaseTestCaseTopSecretSplit):
+    
     def post(self, data, satellite_name=''):
         return self.client.post(
-            self.post_url.format(satellite_name),
+            self.url.format(satellite_name),
             data,
             format='json',
         )
@@ -63,16 +65,11 @@ class TestCaseTopSecretSplitPost(TestCase):
         assert response.status_code == status.HTTP_200_OK
 
 
-class TestCaseTopSecretSplitGet(TestCase):
-
-    get_url = '/topsecret_split/{}/'
-    
-    def setUp(self):
-        self.client = APIClient()
+class TestCaseTopSecretSplitGet(BaseTestCaseTopSecretSplit):
 
     def get(self, satellite_name=''):
         return self.client.get(
-            self.get_url.format(satellite_name),
+            self.url.format(satellite_name),
             format='json',
         )
 

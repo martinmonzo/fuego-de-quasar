@@ -9,7 +9,7 @@ class GetLocationAndMessageBySatellites(GetLocationAndMessage):
     def validate(self):
         satellites = self.request.data['satellites']
         
-        # Get distance from the transmitter to each satellite.
+        # Get the distance from the transmitter to each satellite.
         distance_from_kenobi = get_distance_by_satellite(satellites, 'kenobi')
         distance_from_skywalker = get_distance_by_satellite(satellites, 'skywalker')
         distance_from_sato = get_distance_by_satellite(satellites, 'sato')

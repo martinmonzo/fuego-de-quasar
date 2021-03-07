@@ -30,7 +30,7 @@ class TestCaseGetTransmitterLocation(TestCase):
         assert error.exception.args[0] == 'The retrieved value is not at the specified distances from the satellites.'
     
     @patch('quasar_fire_app.domain.location.is_close', return_value=False)
-    def test_should_raise_exception_if_isclose_returns_false_for_some_point(self, patch_is_close):
+    def test_should_raise_exception_if_is_close_returns_false_for_some_point(self, patch_is_close):
         """
         Test that get_transmitter_location returns False when the method is_close returns False, which means
         that the compared numbers aren't enough similar or their difference isn't enough little.

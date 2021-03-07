@@ -4,8 +4,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from quasar_fire_app.serializers.satellite import SatelliteSplitSerializer
-from quasar_fire_app.server.set_distance_and_message import SetDistanceAndMessage
 from quasar_fire_app.server.get_location_and_message import GetLocationAndMessage
+from quasar_fire_app.server.set_distance_and_message import SetDistanceAndMessage
 
 
 class TopSecretSplitAPIView(APIView):

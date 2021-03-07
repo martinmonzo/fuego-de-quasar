@@ -2,14 +2,13 @@ import json
 from mock import patch
 
 from django.test import TestCase
-
 from rest_framework.exceptions import APIException
 from rest_framework.test import APIRequestFactory
 
 from quasar_fire_app.server.get_location_and_message_by_satellites import GetLocationAndMessageBySatellites
 
 
-class TestCaseGetLocationAndMessageAction(TestCase):
+class TestCaseGetLocationAndMessageBySatellites(TestCase):
 
     post_url = '/topsecret/'
     

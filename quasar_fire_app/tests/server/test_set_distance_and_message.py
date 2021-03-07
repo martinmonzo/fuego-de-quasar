@@ -8,7 +8,7 @@ from rest_framework.test import APIRequestFactory
 from quasar_fire_app.server.set_distance_and_message import SetDistanceAndMessage
 
 
-class TestCaseSetDistanceAndMessageAction(TestCase):
+class TestCaseSetDistanceAndMessage(TestCase):
 
     post_url = '/topsecret_split/{}'
     

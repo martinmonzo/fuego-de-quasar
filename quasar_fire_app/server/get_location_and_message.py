@@ -1,30 +1,44 @@
-from quasar_fire_app.domain.location import (
-    get_distance_by_satellite,
-    get_location,
+from rest_framework.exceptions import APIException
+
+from quasar_fire_app.domain.location import get_transmitter_location
+from quasar_fire_app.domain.message import get_original_message
+from quasar_fire_app.domain.satellite import get_all_satellites_info
+from quasar_fire_app.helpers.distance import (
+    get_distances,
+    is_there_any_unknown_distance,
 )
-from quasar_fire_app.domain.message import get_message
+from quasar_fire_app.helpers.message import (
+    get_messages,
+    is_there_any_unknown_message,
+)
 from quasar_fire_app.server.base import BaseAction
 
 
-class GetLocationAndMessageAction(BaseAction):
+class GetLocationAndMessage(BaseAction):
 
     def validate(self):
-        satellites = self.request.data['satellites']
+        # Retrieve from the DB the distance from the transmitter to each satellite.
+        satellites_info = get_all_satellites_info()
         
-        # Get distance from the transmitter to each satellite.
-        distance_from_kenobi = get_distance_by_satellite(satellites, 'kenobi')
-        distance_from_skywalker = get_distance_by_satellite(satellites, 'skywalker')
-        distance_from_sato = get_distance_by_satellite(satellites, 'sato')
+        if is_there_any_unknown_distance(satellites_info):
+            raise APIException("The distance to at least one satellite could not be determined.")
         
-        self.distances = [distance_from_kenobi, distance_from_skywalker, distance_from_sato]
+        import pdb;pdb.set_trace()
+        if is_there_any_unknown_message(satellites_info):
+            raise APIException("At least one satellite did not receive any message.")
 
-        # Get messages received. In this case, we don't care about which
-        # satellite received which message. We only take care about the messages.
-        self.messages = [satellite['message'] for satellite in satellites]
+        # Retrieve from the DB the messages received by each satellite.
+        distances_by_satellite = get_distances(satellites_info)
+        self.distances = [
+            distances_by_satellite['kenobi'],
+            distances_by_satellite['skywalker'],
+            distances_by_satellite['sato'],
+        ]        
+        self.messages = get_messages(satellites_info)
 
     def run(self):
-        location = get_location(self.distances)
-        message = get_message(self.messages)
+        location = get_transmitter_location(self.distances)
+        message = get_original_message(self.messages)
 
         self.response = {
             'position': {

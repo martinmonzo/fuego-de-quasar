@@ -1,6 +1,6 @@
 from django.test import TestCase
 
-from quasar_fire_app.domain.location import get_distance_by_satellite
+from quasar_fire_app.helpers.distance import get_distance_by_satellite
 
 
 class TestCaseGetDistanceBySatellite(TestCase):

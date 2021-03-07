@@ -18,3 +18,4 @@ class TestCaseSatelliteModel(TestCase):
         assert satellite.x_position == 100
         assert satellite.y_position == 200
         assert satellite.distance_from_transmitter is None
+        assert satellite.message_received is None

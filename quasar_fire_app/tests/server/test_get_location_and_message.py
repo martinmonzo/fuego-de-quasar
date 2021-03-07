@@ -1,28 +1,20 @@
 import json
 from mock import patch
-from parameterized import parameterized
 
 from django.test import TestCase
-from django.test.client import (
-    encode_multipart,
-    RequestFactory,
-)
-from rest_framework.test import APIRequestFactory
 
-
-
-from rest_framework import status
 from rest_framework.exceptions import APIException
-
+from rest_framework.test import APIRequestFactory
 
 from quasar_fire_app.server.get_location_and_message import GetLocationAndMessageAction
 
 
 class TestCaseGetLocationAndMessageAction(TestCase):
 
+    post_url = '/topsecret/'
+    
     def setUp(self):
         self.factory = APIRequestFactory()
-        self.post_url = '/topsecret/'
 
     def post(self, data={'satellites': []}):
         request = self.factory.post(

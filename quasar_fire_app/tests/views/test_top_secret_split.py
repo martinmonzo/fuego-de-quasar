@@ -12,9 +12,10 @@ from quasar_fire_app.server.set_distance_and_message import SetDistanceAndMessag
 
 class TestCaseTopSecretSplitPost(TestCase):
 
+    post_url = '/topsecret_split/{}/'
+    
     def setUp(self):
         self.client = APIClient()
-        self.post_url = '/topsecret_split/{}/'
 
     def post(self, data, satellite_name=''):
         return self.client.post(
@@ -22,25 +23,6 @@ class TestCaseTopSecretSplitPost(TestCase):
             data,
             format='json',
         )
-
-    def get_valid_satellites(self):
-        return [
-            {
-                "name": "sato",
-                "distance": 282.84271259,
-                "message": ["Hello", "", "are", ""]
-            },
-            {
-                "name": "kenobi",
-                "distance": 943.3981132,
-                "message": ["", "how", "are", ""]
-            },
-            {
-                "name": "skywalker",
-                "distance": 447.21359559,
-                "message": ["", "how", "", "you?"]
-            },
-        ]
 
     @parameterized.expand([
         ([{"message": ["Hello", "", "", "you?"]}]),  # Data without distance

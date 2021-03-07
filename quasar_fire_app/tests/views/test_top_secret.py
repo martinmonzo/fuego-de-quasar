@@ -2,7 +2,6 @@ from mock import patch
 from parameterized import parameterized
 
 from django.test import TestCase
-
 from rest_framework import status
 from rest_framework.exceptions import APIException
 from rest_framework.test import APIClient
@@ -11,10 +10,11 @@ from quasar_fire_app.server.get_location_and_message import GetLocationAndMessag
 
 
 class TestCaseTopSecretPost(TestCase):
+    
+    post_url = '/topsecret/'
 
     def setUp(self):
         self.client = APIClient()
-        self.post_url = '/topsecret/'
 
     def post(self, data):
         return self.client.post(

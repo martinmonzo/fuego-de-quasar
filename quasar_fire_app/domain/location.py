@@ -57,6 +57,8 @@ def get_transmitter_location(distances):
     x = (C*E - F*B) / (E*A - B*D)
     y = (C*D - A*F) / (B*D - A*E)
 
+    # Check that the retrieved value (x,y) is enough approximated 
+    # to each distance formula -> (x-xi)**2+(y-yi)**2 == ri**2
     if not (
         is_close((x-x1)**2+(y-y1)**2, r1**2)
         and is_close((x-x2)**2+(y-y2)**2, r2**2)

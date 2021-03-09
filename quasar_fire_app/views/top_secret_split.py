@@ -13,7 +13,8 @@ class TopSecretSplitAPIView(APIView):
     GET: Retrieve the location (X,Y) of the transmitter and the message sent by it.
     POST: Update the distance fromt the transmitter to the satellite.
     """
-    post_serializer_class = SatelliteSplitSerializer
+    
+    serializer_class = SatelliteSplitSerializer
 
     def get(self, request, satellite_name):
         try:
@@ -39,7 +40,7 @@ class TopSecretSplitAPIView(APIView):
             )
 
     def post(self, request, satellite_name):
-        serializer = self.post_serializer_class(data=request.data)
+        serializer = self.serializer_class(data=request.data)
 
         if not serializer.is_valid():
             return Response(status=status.HTTP_404_NOT_FOUND)

@@ -4,7 +4,7 @@ from django.test import TestCase
 from rest_framework.exceptions import APIException
 from rest_framework.test import APIRequestFactory
 
-from quasar_fire_app.server.get_location_and_message_by_satellites import GetLocationAndMessage
+from quasar_fire_app.server.get_location_and_message import GetLocationAndMessage
 
 
 class TestCaseGetLocationAndMessage(TestCase):
@@ -97,7 +97,7 @@ class TestCaseGetLocationAndMessage(TestCase):
         patch_is_there_any_unknown_distance,
         patch_get_all_satellites_info,
     ):
-        """Test that GetLocationAndMessageBySatellites(request) works successfully."""
+        """Test that SetAndGetLocationAndMessageBySatellites(request) works successfully."""
         request = self.get()
 
         response = GetLocationAndMessage(request).response

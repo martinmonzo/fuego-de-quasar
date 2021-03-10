@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from quasar_fire_app.serializers.top_secret_post import TopSecretPostSerializer
-from quasar_fire_app.server.get_location_and_message_by_satellites import GetLocationAndMessageBySatellites
+from quasar_fire_app.server.set_and_get_location_and_message_by_satellites import SetAndGetLocationAndMessageBySatellites
 
 
 class TopSecretAPIView(APIView):
@@ -18,7 +18,7 @@ class TopSecretAPIView(APIView):
         if not serializer.is_valid():
             return Response(status=status.HTTP_404_NOT_FOUND)
         try:
-            response = GetLocationAndMessageBySatellites(request).response
+            response = SetAndGetLocationAndMessageBySatellites(request).response
 
             position = response['position']
             message = response['message']

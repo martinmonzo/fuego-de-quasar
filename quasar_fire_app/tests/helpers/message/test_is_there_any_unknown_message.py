@@ -1,5 +1,3 @@
-from django.test import TestCase
-
 from quasar_fire_app.helpers.message import is_there_any_unknown_message
 from quasar_fire_app.models.satellite import Satellite
 from quasar_fire_app.tests.helpers.message.base import BaseTestCaseMessage

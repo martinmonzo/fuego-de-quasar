@@ -3,8 +3,7 @@ import json
 
 def is_there_any_unknown_message(satellites_info):
     """
-    Determine whether there are satellites 
-    that have not receive any message yet.
+    Determine whether there are satellites that have not receive any message yet.
 
     Args:
         - satellites_info (QuerySet): all the information already known about the satellites.

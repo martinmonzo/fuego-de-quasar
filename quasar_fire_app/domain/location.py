@@ -21,7 +21,7 @@ def get_transmitter_location(distances):
 
         But, as we know, when we operate with float numbers, there's a data error introduced. E.g.:
         > number = 1.1
-        > number**2 -> 1.2100000000000002
+        > print(number**2) -> 1.2100000000000002
 
         The expected value was 1.21, but we got a slightly different number.
 

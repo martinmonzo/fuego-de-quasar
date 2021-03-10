@@ -12,6 +12,7 @@ que transporta raciones y armamento para una legión entera.
 - [Operación Fuego de Quasar](#operación-fuego-de-quasar)
   - [Ubicación del proyecto y cómo ejecutarlo](#ubicación-del-proyecto-y-cómo-ejecutarlo)
     - [Ejecución desde la web](#ejecución-desde-la-web)
+    - [Ejecución desde Postman](#ejecución-desde-postman)
   - [Documentación acerca del proyecto](#documentación-acerca-del-proyecto)
     - [1. /topsecret/](#1-topsecret)
       - [POST -> /topsecret/](#post---topsecret)
@@ -28,6 +29,8 @@ que transporta raciones y armamento para una legión entera.
   - [Descripción del problema](#descripción-del-problema)
   - [Demostración de la fórmula](#demostración-de-la-fórmula)
   - [Consideraciones a tener en cuenta](#consideraciones-a-tener-en-cuenta)
+    - [1. Aproximación de valores](#1-aproximación-de-valores)
+    - [2. Base de Datos](#2-base-de-datos)
 
 ---
 ## Ubicación del proyecto y cómo ejecutarlo
@@ -42,15 +45,22 @@ Se puede ejecutar directamente desde la web, o mediante alguna aplicación para 
      - kenobi
      - skywalker
      - sato
-3. **GET -> /topsecret_split/{satellite_name}**: se debe abrir esta https://quasarfireapp-mmonzo.herokuapp.com/topsecret_split/kenobi y podrá observarse la respuesta directamente, dado que el método es un **GET**.
-   - TENER EN CUENTA QUE NO HABRÁ SUFICIENTE INFORMACIÓN HASTA QUE SE HAYA REALIZADO UN POST A CADA SATÉLITE.
+3. **GET -> /topsecret_split/{satellite_name}**: se debe abrir https://quasarfireapp-mmonzo.herokuapp.com/topsecret_split/kenobi y podrá observarse la respuesta directamente, dado que el método es un **GET**.
+   - TENER EN CUENTA QUE NO HABRÁ SUFICIENTE INFORMACIÓN HASTA QUE HAYA INFORMACIÓN EN LA BASE DE DATOS ACERCA DE LA DISTANCIA DEL TRANSMISOR A CADA SATÉLITE Y DE CADA MENSAJE RECIBIDO POR LOS SATÉLITES. Esto es posible de 2 maneras:
+     1. Ejecutando 1 **POST -> /topsecret_split/{satellite_name}** a cada satélite antes de ejecutar el GET.
+     2. Ejecutar **POST -> /topsecret/** una sola vez, dado que este método actualiza los valores en la Base de Datos.
+
+### Ejecución desde Postman
+1. **POST -> /topsecret/**: se debe abrir pegar el link https://quasarfireapp-mmonzo.herokuapp.com/ en el campo de **URL**, seleccionar el método **POST**, pegar el payload en el formulario de **body** con el mismo formato que se indica [aquí](#payload)
+2. **POST -> /topsecret_split/{satellite_name}**: se debe abrir esta https://quasarfireapp-mmonzo.herokuapp.com/topsecret_split/kenobi y pegar el payload en el campo Content del formulario de Post, con el mismo formato que se indica [aquí](#payload-1).
+3. **GET -> /topsecret_split/{satellite_name}**: se debe abrir pegar el link https://quasarfireapp-mmonzo.herokuapp.com/topsecret_split/kenobi y podrá observarse la respuesta directamente, dado que el método es un **GET**.
 ## Documentación acerca del proyecto
 El proyecto consiste en el desarrollo de los siguientes endpoints:
 
 ### 1. /topsecret/
    El servicio recibe la **distancia** desde el transmisor a cada uno de los satélites, junto con el **mensaje** recibido por cada satélite.
 
-   Devuelve la **posición (X,Y)** del transmisor y el **mensaje original** enviado por este.
+   Devuelve la **posición (X,Y)** del transmisor y el **mensaje original** enviado por este a los satélites.
    
    #### POST -> /topsecret/
 
@@ -112,7 +122,7 @@ El proyecto consiste en el desarrollo de los siguientes endpoints:
       RESPONSE CODE: 200
 
    #### GET -> /topsecret_split/{satellite_name}
-   Devuelve la **posición (X,Y)** del transmisor y el **mensaje original** enviado por este, siempre y cuando ya se haya registrado una **distancia** y **mensaje** desde el transmisor hacia cada uno de los satélites, es decir, que se hayan ejecutado al menos **3 POST** (uno por cada satélite).
+   Devuelve la **posición (X,Y)** del transmisor y el **mensaje original** enviado por este, siempre y cuando ya se haya registrado una **distancia** y **mensaje** desde el transmisor hacia cada uno de los satélites.
 
    ##### Success Response
 
@@ -148,9 +158,20 @@ El problema principal radica en determinar la **posición (X,Y)** del transmisor
 ## [Demostración de la fórmula](https://github.com/martinmonzo/fuego-de-quasar/blob/main/docs/Trilateraci%C3%B3n.pdf)
 
 ## Consideraciones a tener en cuenta
+
+### 1. Aproximación de valores
 Debido a que se opera las fórmulas empleadas dan como resultado un punto **(X,Y)** que puede ser o no ser solución del sistema, se debe chequear que este punto se encuentre efectivamente a la distancia especificada de cada uno de los satélites.
 
 Como sabemos, la fórmula para determinar la distancia entre un punto **(X,Y)** y un punto **(X1,Y1)** es
 **(X-X1)^2+(Y-Y1)^2 = r^2**, siendo **r** la distancia entre ambos puntos. Por lo tanto, debemos asegurarnos que el punto **(X,Y)** devuelto por la fórmula cumpla con esto para cada uno de los satélites.
 
 Sin embargo, como se opera con numeros reales, los decimales son rellenados con datos inexactos, y esta igualdad podría verse afectada. Es por esto que determinaremos esta "igualdad" con un factor de tolerancia (en nuestro caso, sera de **1e-3 = 0.0001**).
+
+### 2. Base de Datos
+Para ejecutar el método **GET -> /topsecret_split/{satellite_name}** y obtener una respuesta exitosa, es necesario que las **distancias** desde el transmisor hacia todos los satélites sea conocida, al igual que el **mensaje** recibido por cada uno de ellos. Para que esto sea posible, necesitaríamos ejecutar primero al menos 3 veces el método **POST -> /topsecret_split/{satellite_name}** (una vez por cada satélite).
+
+Para evitar esto, la implementación del método **POST -> /topsecret/** guarda estos valores en la Base de Datos para cada satélite, de modo de evitar tener que ejecutar 3 veces un método antes de poder ejecutar exitosamente **GET -> /topsecret_split/{satellite_name}**.
+
+Por lo tanto, es suficiente con ejecutar una vez **POST -> /topsecret/** para poder hacer un **GET**.
+
+

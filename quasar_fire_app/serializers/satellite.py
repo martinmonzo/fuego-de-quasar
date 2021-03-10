@@ -9,7 +9,7 @@ class SatelliteSplitSerializer(serializers.Serializer):
         allow_null=False,
         validators=[MinValueValidator(0.0)],
     )
-    message = serializers.ListField(required=True, allow_null=False)
+    message = serializers.ListField(required=True, allow_empty=False)
 
 
 class SatelliteSerializer(SatelliteSplitSerializer):

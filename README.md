@@ -10,6 +10,8 @@ que transporta raciones y armamento para una legión entera.
 **Contenido**
 
 - [Operación Fuego de Quasar](#operación-fuego-de-quasar)
+  - [Ubicación del proyecto y cómo ejecutarlo](#ubicación-del-proyecto-y-cómo-ejecutarlo)
+    - [Ejecución desde la web](#ejecución-desde-la-web)
   - [Documentación acerca del proyecto](#documentación-acerca-del-proyecto)
     - [1. /topsecret/](#1-topsecret)
       - [POST -> /topsecret/](#post---topsecret)
@@ -28,9 +30,22 @@ que transporta raciones y armamento para una legión entera.
   - [Consideraciones a tener en cuenta](#consideraciones-a-tener-en-cuenta)
 
 ---
+## Ubicación del proyecto y cómo ejecutarlo
+El proyecto se encuentra hosteado en este [link](https://quasarfireapp-mmonzo.herokuapp.com/topsecret) en Heroku.
 
+Se puede ejecutar directamente desde la web, o mediante alguna aplicación para testear APIs, como por ejemplo Postman.
+
+### Ejecución desde la web
+1. **POST -> /topsecret/**: se debe abrir https://quasarfireapp-mmonzo.herokuapp.com/topsecret y pegar el payload en el campo Content del formulario de Post, con el mismo formato que se indica [aquí](#payload)
+2. **POST -> /topsecret_split/{satellite_name}**: se debe abrir esta https://quasarfireapp-mmonzo.herokuapp.com/topsecret_split/kenobi y pegar el payload en el campo Content del formulario de Post, con el mismo formato que se indica [aquí](#payload-1).
+   - TENER EN CUENTA QUE EL **{satellite_name}** puede ser:
+     - kenobi
+     - skywalker
+     - sato
+3. **GET -> /topsecret_split/{satellite_name}**: se debe abrir esta https://quasarfireapp-mmonzo.herokuapp.com/topsecret_split/kenobi y podrá observarse la respuesta directamente, dado que el método es un **GET**.
+   - TENER EN CUENTA QUE NO HABRÁ SUFICIENTE INFORMACIÓN HASTA QUE SE HAYA REALIZADO UN POST A CADA SATÉLITE.
 ## Documentación acerca del proyecto
-El proyecto consiste en el desarrollo de los siguientes servicios:
+El proyecto consiste en el desarrollo de los siguientes endpoints:
 
 ### 1. /topsecret/
    El servicio recibe la **distancia** desde el transmisor a cada uno de los satélites, junto con el **mensaje** recibido por cada satélite.

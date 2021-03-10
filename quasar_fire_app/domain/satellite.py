@@ -20,6 +20,22 @@ def update_satellite(satellite_name, distance, message):
     satellite.save()
 
 
+def update_satellites_bulk(satellites):
+    """
+    Update the distances from the transmitter to every satellite, 
+    and the message received by all of them.
+
+    Args:
+        - satellites (list(dict)): List of dicts that represent the information about each satellite.
+    """
+    for satellite in satellites:
+        update_satellite(
+            satellite['name'],
+            satellite['distance'],
+            satellite['message'],
+        )
+
+
 def get_all_satellites_info():
     """
     Retrieve all information about the satellites.

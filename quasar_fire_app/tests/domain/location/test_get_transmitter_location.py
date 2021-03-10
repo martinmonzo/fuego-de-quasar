@@ -44,7 +44,8 @@ class TestCaseGetTransmitterLocation(TestCase):
 
         assert error.exception.args[0] == 'The retrieved value is not at the specified distances from the satellites.'
     
-    def test_should_return_some_xy_point_for_distances_that_match_a_point(self):
+    @patch('quasar_fire_app.domain.location.is_close', return_value=True)
+    def test_should_return_some_xy_point_for_distances_that_match_a_point(self, patch_is_close):
         """
         Test that get_transmitter_location returns a point (X,Y) when the distances to the
         satellites are consistent at one point in the plane, that is, 

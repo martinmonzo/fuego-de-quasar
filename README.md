@@ -39,21 +39,35 @@ El proyecto se encuentra hosteado en este [link](https://quasarfireapp-mmonzo.he
 Se puede ejecutar directamente desde la web, o mediante alguna aplicación para testear APIs, como por ejemplo Postman.
 
 ### Ejecución desde la web
-1. **POST -> /topsecret/**: se debe abrir https://quasarfireapp-mmonzo.herokuapp.com/topsecret y pegar el payload en el campo Content del formulario de Post, con el mismo formato que se indica [aquí](#payload)
-2. **POST -> /topsecret_split/{satellite_name}**: se debe abrir esta https://quasarfireapp-mmonzo.herokuapp.com/topsecret_split/kenobi y pegar el payload en el campo Content del formulario de Post, con el mismo formato que se indica [aquí](#payload-1).
-   - TENER EN CUENTA QUE EL **{satellite_name}** puede ser:
+1. **POST -> /topsecret/**:
+   1. Abrir https://quasarfireapp-mmonzo.herokuapp.com/topsecret
+   2. Seleccionar la opción **Raw data**
+   3. Pegar el payload en el campo Content del formulario de Post, con el mismo formato que se indica [aquí](#payload)
+2. **POST -> /topsecret_split/{satellite_name}**:
+   1. Abrir https://quasarfireapp-mmonzo.herokuapp.com/topsecret_split/kenobi
+   2. Seleccionar la opción **Raw data**
+   3. Pegar el payload en el campo Content del formulario de Post, con el mismo formato que se indica [aquí](#payload-1).
+   - TENER EN CUENTA QUE EL **{satellite_name}** PUEDE SER:
      - kenobi
      - skywalker
      - sato
-3. **GET -> /topsecret_split/{satellite_name}**: se debe abrir https://quasarfireapp-mmonzo.herokuapp.com/topsecret_split/kenobi y podrá observarse la respuesta directamente, dado que el método es un **GET**.
+3. **GET -> /topsecret_split/{satellite_name}**:
+   1. Abrir https://quasarfireapp-mmonzo.herokuapp.com/topsecret_split/kenobi y podrá observarse la respuesta directamente, dado que el método es un **GET** y no requiere payload.
    - TENER EN CUENTA QUE NO HABRÁ SUFICIENTE INFORMACIÓN HASTA QUE HAYA INFORMACIÓN EN LA BASE DE DATOS ACERCA DE LA DISTANCIA DEL TRANSMISOR A CADA SATÉLITE Y DE CADA MENSAJE RECIBIDO POR LOS SATÉLITES. Esto es posible de 2 maneras:
      1. Ejecutando 1 **POST -> /topsecret_split/{satellite_name}** a cada satélite antes de ejecutar el GET.
      2. Ejecutar **POST -> /topsecret/** una sola vez, dado que este método actualiza los valores en la Base de Datos.
 
 ### Ejecución desde Postman
-1. **POST -> /topsecret/**: se debe abrir pegar el link https://quasarfireapp-mmonzo.herokuapp.com/ en el campo de **URL**, seleccionar el método **POST**, pegar el payload en el formulario de **body** con el mismo formato que se indica [aquí](#payload)
-2. **POST -> /topsecret_split/{satellite_name}**: se debe abrir esta https://quasarfireapp-mmonzo.herokuapp.com/topsecret_split/kenobi y pegar el payload en el campo Content del formulario de Post, con el mismo formato que se indica [aquí](#payload-1).
-3. **GET -> /topsecret_split/{satellite_name}**: se debe abrir pegar el link https://quasarfireapp-mmonzo.herokuapp.com/topsecret_split/kenobi y podrá observarse la respuesta directamente, dado que el método es un **GET**.
+1. **POST -> /topsecret/**:
+   1. Pegar el link https://quasarfireapp-mmonzo.herokuapp.com/topsecret en el campo de **URL**
+   2. Seleccionar el método **POST**
+   3. Pegar el payload en el formulario de **body** con el mismo formato que se indica [aquí](#payload)
+2. **POST -> /topsecret_split/{satellite_name}**:
+   1. Pegar el link https://quasarfireapp-mmonzo.herokuapp.com/topsecret_split/kenobi
+   2. Pegar el payload en el campo Content del formulario de Post, con el mismo formato que se indica [aquí](#payload-1).
+3. **GET -> /topsecret_split/{satellite_name}**:
+   1. Pegar el link https://quasarfireapp-mmonzo.herokuapp.com/topsecret_split/kenobi
+   2. Seleccionar el método **GET**
 ## Documentación acerca del proyecto
 El proyecto consiste en el desarrollo de los siguientes endpoints:
 
@@ -61,6 +75,7 @@ El proyecto consiste en el desarrollo de los siguientes endpoints:
    El servicio recibe la **distancia** desde el transmisor a cada uno de los satélites, junto con el **mensaje** recibido por cada satélite.
 
    Devuelve la **posición (X,Y)** del transmisor y el **mensaje original** enviado por este a los satélites.
+   Además, guarda estos valores en la Base de Datos.
    
    #### POST -> /topsecret/
 

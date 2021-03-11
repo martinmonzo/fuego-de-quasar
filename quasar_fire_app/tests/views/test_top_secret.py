@@ -21,7 +21,7 @@ class TestCaseTopSecretPost(TestCase):
         return self.client.post(
             self.post_url,
             {
-                "satellites": data,
+                'satellites': data,
             },
             format='json',
         )
@@ -29,69 +29,69 @@ class TestCaseTopSecretPost(TestCase):
     def get_valid_satellites(self):
         return [
             {
-                "name": "sato",
-                "distance": 282.84271259,
-                "message": ["Hello", "", "are", ""]
+                'name': 'sato',
+                'distance': 282.84271259,
+                'message': ['Hello', '', 'are', '']
             },
             {
-                "name": "kenobi",
-                "distance": 943.3981132,
-                "message": ["", "how", "are", ""]
+                'name': 'kenobi',
+                'distance': 943.3981132,
+                'message': ['', 'how', 'are', '']
             },
             {
-                "name": "skywalker",
-                "distance": 447.21359559,
-                "message": ["", "how", "", "you?"]
+                'name': 'skywalker',
+                'distance': 447.21359559,
+                'message': ['', 'how', '', 'you?']
             },
         ]
 
     @parameterized.expand([
         # Payload has less than 3 satellites
         ([[
-            {"name": "fake-name", "distance": 50, "message": ["Hello", "how", "are", "you?"]},
+            {'name': 'fake-name', 'distance': 50, 'message': ['Hello', 'how', 'are', 'you?']},
         ]]),
         # Payload has more than 3 satellites
         ([[
-            {"name": "fake-name-1", "distance": 50, "message": ["Hello", "", "", "you?"]},
-            {"name": "fake-name-2", "distance": 100, "message": ["", "how", "", "you?"]},
-            {"name": "fake-name-3", "distance": 200, "message": ["Hello", "", "are", ""]},
-            {"name": "fake-name-4", "distance": 500, "message": ["Hello", "how", "", ""]},
+            {'name': 'fake-name-1', 'distance': 50, 'message': ['Hello', '', '', 'you?']},
+            {'name': 'fake-name-2', 'distance': 100, 'message': ['', 'how', '', 'you?']},
+            {'name': 'fake-name-3', 'distance': 200, 'message': ['Hello', '', 'are', '']},
+            {'name': 'fake-name-4', 'distance': 500, 'message': ['Hello', 'how', '', '']},
         ]]),
         # Satellites without name
         ([[
-            {"distance": 50, "message": ["Hello", "", "", "you?"]},
-            {"distance": 100, "message": ["", "how", "", "you?"]},
-            {"distance": 200, "message": ["Hello", "", "are", ""]},
+            {'distance': 50, 'message': ['Hello', '', '', 'you?']},
+            {'distance': 100, 'message': ['', 'how', '', 'you?']},
+            {'distance': 200, 'message': ['Hello', '', 'are', '']},
         ]]),
         # Satellites without distance
         ([[
-            {"name": 'fake-name-1', "message": ["Hello", "", "", "you?"]},
-            {"name": 'fake-name-2', "message": ["", "how", "", "you?"]},
-            {"name": 'fake-name-3', "message": ["Hello", "", "are", ""]},
+            {'name': 'fake-name-1', 'message': ['Hello', '', '', 'you?']},
+            {'name': 'fake-name-2', 'message': ['', 'how', '', 'you?']},
+            {'name': 'fake-name-3', 'message': ['Hello', '', 'are', '']},
         ]]),
         # Satellites without message
         ([[
-            {"name": 'fake-name-1', "distance": 50},
-            {"name": 'fake-name-2', "distance": 100},
-            {"name": 'fake-name-3', "distance": 200},
+            {'name': 'fake-name-1', 'distance': 50},
+            {'name': 'fake-name-2', 'distance': 100},
+            {'name': 'fake-name-3', 'distance': 200},
         ]]),
         # names are not string
         ([[
-            {"name": 1, "distance": 50, "message": ["Hello", "", "", "you?"]},
-            {"name": [], "distance": 100, "message": ["", "how", "", ""]},
-            {"name": None, "distance": 200, "message": ["Hello", "", "are", ""]},
+            {'name': 1, 'distance': 50, 'message': ['Hello', '', '', 'you?']},
+            {'name': [], 'distance': 100, 'message': ['', 'how', '', '']},
+            {'name': None, 'distance': 200, 'message': ['Hello', '', 'are', '']},
         ]]),
         # # distances are not positive numbers
         ([[
-            {"name": "fake-name-1", "distance": -50, "message": ["Hello", "", "", "you?"]},
-            {"name": "fake-name-2", "distance": "Hello", "message": ["", "how", "", ""]},
-            {"name": "fake-name-3", "distance": [], "message": ["Hello", "", "are", ""]},
+            {'name': 'fake-name-1', 'distance': -50, 'message': ['Hello', '', '', 'you?']},
+            {'name': 'fake-name-2', 'distance': 'Hello', 'message': ['', 'how', '', '']},
+            {'name': 'fake-name-3', 'distance': [], 'message': ['Hello', '', 'are', '']},
         ]]),
         # # messages are not lists of string
         ([[
-            {"name": "fake-name-1", "distance": 50, "message": [50, None, []]},
-            {"name": "fake-name-2", "distance": 100, "message": 5},
-            {"name": "fake-name-3", "distance": 200, "message": "Hello"},
+            {'name': 'fake-name-1', 'distance': 50, 'message': [50, None, []]},
+            {'name': 'fake-name-2', 'distance': 100, 'message': 5},
+            {'name': 'fake-name-3', 'distance': 200, 'message': 'Hello'},
         ]]),
     ])
     def test_should_return_404_for_invalid_payload(self, satellites):

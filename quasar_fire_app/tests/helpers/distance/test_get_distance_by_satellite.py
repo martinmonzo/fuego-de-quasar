@@ -10,17 +10,17 @@ class TestCaseGetDistanceBySatellite(TestCase):
             {
                 'name': 'first',
                 'distance': 100.5,
-                'message': ["Hello,", "", "", "a", ""],
+                'message': ['Hello,', '', '', 'a', ''],
             },
             {
                 'name': 'second',
                 'distance': 200,
-                'message': ["", "", "is", "", "message"],
+                'message': ['', '', 'is', '', 'message'],
             },
             {
                 'name': 'third',
                 'distance': 50,
-                'message': ["Hello,", "this", "", "", "message"],
+                'message': ['Hello,', 'this', '', '', 'message'],
             },
         ]
 

@@ -16,7 +16,6 @@ class TestCaseGetMessages(BaseTestCaseMessage):
         result = get_messages(satellites_info)
         
         assert result == [
-            ["Hello", "", "", "you?"],
-            ["Hello", "", "", "you?"],
-            ["Hello", "", "", "you?"],
+            ['Hello', '', '', 'you?']
+            for i in range(3)
         ]

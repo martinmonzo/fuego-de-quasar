@@ -12,11 +12,11 @@ class Migration(migrations.Migration):
 
     def insertData(apps, schema_editor):
         Satellite = apps.get_model('quasar_fire_app', 'Satellite')
-        kenobi = Satellite(name="kenobi", x_position=-500.0,y_position=-200.0)
+        kenobi = Satellite(name='kenobi', x_position=-500.0,y_position=-200.0)
         kenobi.save()
-        skywalker = Satellite(name="skywalker", x_position=100.0,y_position=-100.0)
+        skywalker = Satellite(name='skywalker', x_position=100.0,y_position=-100.0)
         skywalker.save()
-        sato = Satellite(name="sato", x_position=500.0,y_position=100.0)
+        sato = Satellite(name='sato', x_position=500.0,y_position=100.0)
         sato.save()
 
     operations = [

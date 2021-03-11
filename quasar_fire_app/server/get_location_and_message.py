@@ -23,9 +23,9 @@ class GetLocationAndMessage(BaseAction):
         # If some distance or some message could not be discovered, there is no
         # enough information to discover the location of the transmitter
         if is_there_any_unknown_distance(satellites_info):
-            raise APIException("The distance to at least one satellite could not be determined.")
+            raise APIException('The distance to at least one satellite could not be determined.')
         if is_there_any_unknown_message(satellites_info):
-            raise APIException("At least one satellite did not receive any message.")
+            raise APIException('At least one satellite did not receive any message.')
 
         # Get the distances from the transmitter to every satellite.
         distances_by_satellite = get_distances(satellites_info)

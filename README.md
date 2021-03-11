@@ -14,18 +14,16 @@ que transporta raciones y armamento para una legión entera.
     - [Ejecución desde la web](#ejecución-desde-la-web)
     - [Ejecución desde Postman](#ejecución-desde-postman)
   - [Documentación acerca del proyecto](#documentación-acerca-del-proyecto)
-    - [1. /topsecret/](#1-topsecret)
-      - [POST -> /topsecret/](#post---topsecret)
-        - [Payload](#payload)
-        - [Success Response](#success-response)
-        - [Error Response](#error-response)
-    - [2. /topsecret_split/{satellite_name}](#2-topsecret_splitsatellite_name)
-      - [POST -> /topsecret_split/{satellite_name}](#post---topsecret_splitsatellite_name)
-        - [Payload](#payload-1)
-        - [Response](#response)
-      - [GET -> /topsecret_split/{satellite_name}](#get---topsecret_splitsatellite_name)
-        - [Success Response](#success-response-1)
-        - [Error Response](#error-response-1)
+    - [1. POST -> /topsecret/](#1-post---topsecret)
+      - [Payload](#payload)
+      - [Success Response](#success-response)
+      - [Error Response](#error-response)
+    - [2. POST -> /topsecret_split/{satellite_name}](#2-post---topsecret_splitsatellite_name)
+      - [Payload](#payload-1)
+      - [Response](#response)
+    - [3. GET -> /topsecret_split/](#3-get---topsecret_split)
+      - [Success Response](#success-response-1)
+      - [Error Response](#error-response-1)
   - [Descripción del problema](#descripción-del-problema)
   - [Demostración de la fórmula](#demostración-de-la-fórmula)
   - [Consideraciones a tener en cuenta](#consideraciones-a-tener-en-cuenta)
@@ -47,12 +45,12 @@ Se puede ejecutar directamente desde la web, o mediante alguna aplicación para 
    1. Abrir https://quasarfireapp-mmonzo.herokuapp.com/topsecret_split/kenobi
    2. Seleccionar la opción **Raw data**
    3. Pegar el payload en el campo Content del formulario de Post, con el mismo formato que se indica [aquí](#payload-1).
-   - TENER EN CUENTA QUE EL **{satellite_name}** PUEDE SER:
+   - TENER EN CUENTA QUE **{satellite_name}** PUEDE SER:
      - kenobi
      - skywalker
      - sato
-3. **GET -> /topsecret_split/{satellite_name}**:
-   1. Abrir https://quasarfireapp-mmonzo.herokuapp.com/topsecret_split/kenobi y podrá observarse la respuesta directamente, dado que el método es un **GET** y no requiere payload.
+3. **GET -> /topsecret_split/**:
+   1. Abrir https://quasarfireapp-mmonzo.herokuapp.com/topsecret_split/ y podrá observarse la respuesta directamente, dado que el método es un **GET** y no requiere payload.
    - TENER EN CUENTA QUE NO HABRÁ SUFICIENTE INFORMACIÓN HASTA QUE HAYA INFORMACIÓN EN LA BASE DE DATOS ACERCA DE LA DISTANCIA DEL TRANSMISOR A CADA SATÉLITE Y DE CADA MENSAJE RECIBIDO POR LOS SATÉLITES. Esto es posible de 2 maneras:
      1. Ejecutando 1 **POST -> /topsecret_split/{satellite_name}** a cada satélite antes de ejecutar el GET.
      2. Ejecutar **POST -> /topsecret/** una sola vez, dado que este método actualiza los valores en la Base de Datos.
@@ -65,21 +63,19 @@ Se puede ejecutar directamente desde la web, o mediante alguna aplicación para 
 2. **POST -> /topsecret_split/{satellite_name}**:
    1. Pegar el link https://quasarfireapp-mmonzo.herokuapp.com/topsecret_split/kenobi
    2. Pegar el payload en el campo Content del formulario de Post, con el mismo formato que se indica [aquí](#payload-1).
-3. **GET -> /topsecret_split/{satellite_name}**:
-   1. Pegar el link https://quasarfireapp-mmonzo.herokuapp.com/topsecret_split/kenobi
+3. **GET -> /topsecret_split/**:
+   1. Pegar el link https://quasarfireapp-mmonzo.herokuapp.com/topsecret_split/
    2. Seleccionar el método **GET**
 ## Documentación acerca del proyecto
 El proyecto consiste en el desarrollo de los siguientes endpoints:
 
-### 1. /topsecret/
+### 1. POST -> /topsecret/
    El servicio recibe la **distancia** desde el transmisor a cada uno de los satélites, junto con el **mensaje** recibido por cada satélite.
 
    Devuelve la **posición (X,Y)** del transmisor y el **mensaje original** enviado por este a los satélites.
    Además, guarda estos valores en la Base de Datos.
    
-   #### POST -> /topsecret/
-
-   ##### Payload
+   #### Payload
   
       {
          "satellites": [
@@ -101,7 +97,7 @@ El proyecto consiste en el desarrollo de los siguientes endpoints:
          ]
       }
 
-   ##### Success Response
+   #### Success Response
 
       RESPONSE CODE: 200
 
@@ -113,33 +109,32 @@ El proyecto consiste en el desarrollo de los siguientes endpoints:
          "message": "este es un mensaje secreto"
       }
 
-   ##### Error Response
+   #### Error Response
 
       RESPONSE CODE: 404
 
-### 2. /topsecret_split/{satellite_name}
+### 2. POST -> /topsecret_split/{satellite_name}
    El servicio acepta **POST** y **GET**:
 
-   #### POST -> /topsecret_split/{satellite_name}
    Recibe la **distancia** desde el transmisor a UNO de los satélites (aquel cuyo nombre es {satellite_name}), junto con el **mensaje** recibido por este satélite.
 
    Devuelve un **status=200** si la información recibida es válida y se pudo actualizar en la Base de Datos.
 
-   ##### Payload
+   #### Payload
            
       {     
          "distance": 100,
          "message": ["este", "", "", "mensaje", ""]
       }
 
-   ##### Response
+   #### Response
 
       RESPONSE CODE: 200
 
-   #### GET -> /topsecret_split/{satellite_name}
+### 3. GET -> /topsecret_split/
    Devuelve la **posición (X,Y)** del transmisor y el **mensaje original** enviado por este, siempre y cuando ya se haya registrado una **distancia** y **mensaje** desde el transmisor hacia cada uno de los satélites.
 
-   ##### Success Response
+   #### Success Response
 
       RESPONSE CODE: 200
 
@@ -151,7 +146,7 @@ El proyecto consiste en el desarrollo de los siguientes endpoints:
          "message": "este es un mensaje secreto"
       }
 
-   ##### Error Response
+   #### Error Response
 
       RESPONSE CODE: 404
       

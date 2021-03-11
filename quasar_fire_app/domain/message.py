@@ -36,7 +36,7 @@ def get_original_message(messages):
         non_blank_words_received_in_position_i = {
             word for word 
             in [first_message[i], second_message[i], third_message[i]]
-            if word != ""
+            if word != ''
         }
         if non_blank_words_received_in_position_i != set([current_word]):
             raise Exception('Different words were received by the satellites at this position.')

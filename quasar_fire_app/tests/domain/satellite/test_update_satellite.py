@@ -12,7 +12,7 @@ class TestCaseUpdateSatellite(TestCase):
         """Test that the instance of Satellite updated by update_satellite is updated in the DB."""        
         satellite_name = 'kenobi'
         new_distance = 100.5
-        new_message = ["Hello", "", "", "you?"]
+        new_message = ['Hello', '', '', 'you?']
         
         satellite = Satellite.objects.get(name=satellite_name)
         assert satellite.distance_from_transmitter is None

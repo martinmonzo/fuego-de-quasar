@@ -13,19 +13,19 @@ class TestCaseUpdateSatellitesBulk(TestCase):
     def setUp(self):
         self.satellites = [
             {
-                "name": "kenobi",
-                "distance": 100,
-                "message": ["Hello", "", "", "you?"]
+                'name': 'kenobi',
+                'distance': 100,
+                'message': ['Hello', '', '', 'you?']
             },
             {
-                "name": "skywalker",
-                "distance": 200,
-                "message": ["", "how", "", ""]
+                'name': 'skywalker',
+                'distance': 200,
+                'message': ['', 'how', '', '']
             },
             {
-                "name": "sato",
-                "distance": 300,
-                "message": ["Hello", "", "are", ""]
+                'name': 'sato',
+                'distance': 300,
+                'message': ['Hello', '', 'are', '']
             }
         ]
 

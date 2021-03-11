@@ -41,7 +41,7 @@ class TestCaseSetDistanceAndMessage(TestCase):
         raises APIException because no distance is sent in the request. 
         """
         request, satellite_name = self.post(
-            {'message': ["Hello", "", "", "you?"]},
+            {'message': ['Hello', '', '', 'you?']},
             'kenobi',
         )
 
@@ -68,7 +68,7 @@ class TestCaseSetDistanceAndMessage(TestCase):
         works successfully, that is, that update_satellite will be called.
         """
         distance = 100.5
-        message = ["Hello", "", "", "you?"]
+        message = ['Hello', '', '', 'you?']
 
         request, satellite_name = self.post(
             {

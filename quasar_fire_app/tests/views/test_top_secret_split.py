@@ -30,8 +30,8 @@ class TestCaseTopSecretSplitPost(BaseTestCaseTopSecretSplit):
         )
 
     @parameterized.expand([
-        ([{"message": ["Hello", "", "", "you?"]}]),  # Data without distance
-        ([{"distance": 50}]),  # Data without message
+        ([{'message': ['Hello', '', '', 'you?']}]),  # Data without distance
+        ([{'distance': 50}]),  # Data without message
     ])
     def test_should_return_404_for_invalid_payload(self, payload):
         """Test that the view returns a response code 404 when the payload is invalid."""
@@ -46,8 +46,8 @@ class TestCaseTopSecretSplitPost(BaseTestCaseTopSecretSplit):
         when the call to the server action raises an APIException.
         """
         data = {
-            "message": ["Hello", "", "", "you?"],
-            "distance": 50,
+            'message': ['Hello', '', '', 'you?'],
+            'distance': 50,
         }
 
         response = self.post(data, 'kenobi')
@@ -57,8 +57,8 @@ class TestCaseTopSecretSplitPost(BaseTestCaseTopSecretSplit):
     def test_should_pass_successfully_for_correct_payload(self):
         """Test that the view returns a response code 200 when the payload is valid."""
         data = {
-            "message": ["Hello", "", "", "you?"],
-            "distance": 50,
+            'message': ['Hello', '', '', 'you?'],
+            'distance': 50,
         }
 
         response = self.post(data, 'kenobi')
@@ -96,9 +96,9 @@ class TestCaseTopSecretSplitGet(BaseTestCaseTopSecretSplit):
         Test that the view returns a response code 200 and the expected 
         data when the information in the DB is right and complete.
         """
-        self.update_satellite_by_name('kenobi', 670.8203932, ["Hello", "", "are", ""])
-        self.update_satellite_by_name('skywalker', 200, ["", "", "are", "you?"])
-        self.update_satellite_by_name('sato', 400, ["Hello", "how", "", ""])
+        self.update_satellite_by_name('kenobi', 670.8203932, ['Hello', '', 'are', ''])
+        self.update_satellite_by_name('skywalker', 200, ['', '', 'are', 'you?'])
+        self.update_satellite_by_name('sato', 400, ['Hello', 'how', '', ''])
 
         response = self.get('kenobi')
 

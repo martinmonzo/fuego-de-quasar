@@ -1,25 +1,22 @@
 from mock import patch
 from parameterized import parameterized
 
-from django.test import TestCase
-
 from rest_framework import status
 from rest_framework.exceptions import APIException
-from rest_framework.test import APIClient
+from quasar_fire_app.server.set_and_get_location_and_message_by_satellites import (
+    SetAndGetLocationAndMessageBySatellites,
+)
+from quasar_fire_app.tests.views.base import BaseTestCaseAPIView
 
-from quasar_fire_app.server.set_and_get_location_and_message_by_satellites import SetAndGetLocationAndMessageBySatellites
 
 
-class TestCaseTopSecretPost(TestCase):
+class TestCaseTopSecretPost(BaseTestCaseAPIView):
     
-    post_url = '/topsecret/'
-
-    def setUp(self):
-        self.client = APIClient()
+    url = '/topsecret/'
 
     def post(self, data):
         return self.client.post(
-            self.post_url,
+            self.url,
             {
                 'satellites': data,
             },

@@ -8,4 +8,5 @@ from quasar_fire_app.views.top_secret_split import TopSecretSplitAPIView
 urlpatterns = [
     path('topsecret/', TopSecretAPIView.as_view()),
     url(r'^topsecret_split/(?P<satellite_name>\w+)/$', TopSecretSplitAPIView.as_view()),
+    path('topsecret_split/', TopSecretSplitAPIView.as_view()),
 ]

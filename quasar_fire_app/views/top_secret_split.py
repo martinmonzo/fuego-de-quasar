@@ -16,7 +16,7 @@ class TopSecretSplitAPIView(APIView):
     
     serializer_class = SatelliteSplitSerializer
 
-    def get(self, request, satellite_name):
+    def get(self, request):
         try:
             response = GetLocationAndMessage(request).response
 

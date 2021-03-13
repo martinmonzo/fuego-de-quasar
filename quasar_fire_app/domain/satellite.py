@@ -13,11 +13,10 @@ def update_satellite(satellite_name, distance, message):
         - distance (float): distance from the transmitter to the satellite.
         - message (str): message received in the satellite.
     """
-    satellite = Satellite.objects.get(name=satellite_name)
-
-    satellite.distance_from_transmitter = distance
-    satellite.message_received = json.dumps(message)
-    satellite.save()
+    Satellite.objects.filter(name=satellite_name).update(
+        distance_from_transmitter=distance,
+        message_received=json.dumps(message),
+    )
 
 
 def update_satellites_bulk(satellites):
@@ -28,13 +27,19 @@ def update_satellites_bulk(satellites):
     Args:
         - satellites (list(dict)): List of dicts that represent the information about each satellite.
     """
+    satellites_to_update = []
     for satellite in satellites:
-        update_satellite(
-            satellite['name'],
-            satellite['distance'],
-            satellite['message'],
-        )
+        satellite_to_update = Satellite.objects.get(name=satellite['name'])
+        satellite_to_update.distance_from_transmitter = satellite['distance']
+        satellite_to_update.message_received = json.dumps(satellite['message'])
 
+        satellites_to_update.append(satellite_to_update)
+
+    Satellite.objects.bulk_update(
+        satellites_to_update,
+        ['distance_from_transmitter', 'message_received'],
+    )
+    
 
 def get_all_satellites_info():
     """

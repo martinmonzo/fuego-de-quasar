@@ -7,9 +7,9 @@ from quasar_fire_app.models.satellite import Satellite
 class TestCaseGetDistances(TestCase):
 
     def update_distance_by_satellite(self, satellite_name):
-        satellite = Satellite.objects.get(name=satellite_name)
-        satellite.distance_from_transmitter = 100.0
-        satellite.save()
+        Satellite.objects.filter(name=satellite_name).update(
+            distance_from_transmitter=100.0,
+        )
 
     def test_should_return_none_distances_if_no_distance_is_known(self):
         """

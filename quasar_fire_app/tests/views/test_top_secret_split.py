@@ -70,11 +70,18 @@ class TestCaseTopSecretSplitGet(BaseTestCaseAPIView):
         )
 
     def update_satellites_bulk(self, satellites):
+        satellites_to_update = []
         for satellite in satellites:
-           satellite_to_update = Satellite.objects.get(name=satellite['name'])
-           satellite_to_update.distance_from_transmitter = satellite['distance']
-           satellite_to_update.message_received = json.dumps(satellite['message'])
-           satellite_to_update.save()
+            satellite_to_update = Satellite.objects.get(name=satellite['name'])
+            satellite_to_update.distance_from_transmitter = satellite['distance']
+            satellite_to_update.message_received = json.dumps(satellite['message'])
+
+            satellites_to_update.append(satellite_to_update)
+
+        Satellite.objects.bulk_update(
+            satellites_to_update,
+            ['distance_from_transmitter', 'message_received'],
+        )
 
     @patch.object(GetLocationAndMessage, 'validate', side_effect=APIException())
     def test_should_return_404_response_raises_api_exception(self, patch_validate):

@@ -19,18 +19,9 @@ class TopSecretAPIView(APIView):
             return Response(status=status.HTTP_404_NOT_FOUND)
         try:
             response = SetAndGetLocationAndMessageBySatellites(request).response
-
-            position = response['position']
-            message = response['message']
-
+            
             return Response(
-                {
-                    'position': {
-                        'x': position['x'],
-                        'y': position['y'],
-                    },
-                    'message': message,
-                },
+                response,
                 status=status.HTTP_200_OK,
             )
         except APIException as ex:

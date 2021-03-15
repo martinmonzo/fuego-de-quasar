@@ -2,6 +2,7 @@ from mock import patch
 
 from django.test import TestCase
 
+from quasar_fire_app.common.errors import ERROR_INVALID_LOCATION
 from quasar_fire_app.domain.location import get_transmitter_location
 
 
@@ -27,7 +28,7 @@ class TestCaseGetTransmitterLocation(TestCase):
         with self.assertRaises(Exception) as error:
             get_transmitter_location([distance_to_kenobi, distance_to_skywalker, distance_to_sato])
 
-        assert error.exception.args[0] == 'The retrieved value is not at the specified distances from the satellites.'
+        assert error.exception.args[0] == ERROR_INVALID_LOCATION
     
     @patch('quasar_fire_app.domain.location.is_close', return_value=False)
     def test_should_raise_exception_if_is_close_returns_false_for_some_point(self, patch_is_close):
@@ -42,7 +43,7 @@ class TestCaseGetTransmitterLocation(TestCase):
         with self.assertRaises(Exception) as error:
             get_transmitter_location([distance_to_kenobi, distance_to_skywalker, distance_to_sato])
 
-        assert error.exception.args[0] == 'The retrieved value is not at the specified distances from the satellites.'
+        assert error.exception.args[0] == ERROR_INVALID_LOCATION
     
     @patch('quasar_fire_app.domain.location.is_close', return_value=True)
     def test_should_return_some_xy_point_for_distances_that_match_a_point(self, patch_is_close):

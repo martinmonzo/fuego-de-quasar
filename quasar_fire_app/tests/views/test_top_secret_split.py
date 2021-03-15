@@ -5,6 +5,7 @@ from parameterized import parameterized
 from rest_framework import status
 from rest_framework.exceptions import APIException
 
+from quasar_fire_app.common.errors import GENERIC_ERROR_NO_INFORMATION_AVAILABLE
 from quasar_fire_app.models.satellite import Satellite
 from quasar_fire_app.server.get_location_and_message import GetLocationAndMessage
 from quasar_fire_app.server.set_distance_and_message import SetDistanceAndMessage
@@ -92,7 +93,7 @@ class TestCaseTopSecretSplitGet(BaseTestCaseAPIView):
         response = self.get()
 
         assert response.status_code == status.HTTP_404_NOT_FOUND
-        assert response.data['error'] == 'There is no enough information.'
+        assert response.data['error'] == GENERIC_ERROR_NO_INFORMATION_AVAILABLE
 
     def test_should_pass_successfully_when_there_is_enough_information(self):
         """

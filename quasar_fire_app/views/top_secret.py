@@ -8,8 +8,14 @@ from quasar_fire_app.server.set_and_get_location_and_message_by_satellites impor
 
 
 class TopSecretAPIView(APIView):
-    """POST: Retrieve the location (X,Y) of the transmitter and the message sent by it."""
-
+    """
+    POST:
+        - Retrieve the location (X,Y) of the transmitter
+        to each satellite and the message sent by it.
+        
+        - Update the distance from the transmitter to each
+        satellite and the message received by all of them.
+    """
     serializer_class = TopSecretPostSerializer
 
     def post(self, request):

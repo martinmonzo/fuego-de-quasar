@@ -11,7 +11,7 @@ def update_satellite(satellite_name, distance, message):
     Args:
         - satellite_name (str): name of the satellite to filter by.
         - distance (float): distance from the transmitter to the satellite.
-        - message (str): message received in the satellite.
+        - message (list[str]): message received in the satellite.
     """
     Satellite.objects.filter(name=satellite_name).update(
         distance_from_transmitter=distance,
@@ -25,7 +25,7 @@ def update_satellites_bulk(satellites):
     and the message received by all of them.
 
     Args:
-        - satellites (list(dict)): List of dicts that represent the information about each satellite.
+        - satellites (list[dict]): List of dicts that represent the information about each satellite.
     """
     satellites_to_update = []
     for satellite in satellites:
@@ -51,17 +51,22 @@ def get_all_satellites_info():
     return Satellite.objects.all()
 
 
-def get_coordinates_by_satellite_name(satellite_name):
-    """
-    Retrieve the coordinates (X,Y) of a satellite, given a satellite name.
-
-    Args:
-        - satellite_name (str): name of the satellite to filter by.
+def get_coordinates_by_satellite_name():
+    """Retrieve the coordinates (X,Y) of each satellite from the database, ordered by satellite name.
 
     Returns:
-        tuple(float, float): (X,Y) coordinates of the satellite.
+        dict[str, dict[str, float]]: (X,Y) coordinates of the satellites, ordered by satellite name.
     """
-    return Satellite.objects.values_list(
+    satellites = Satellite.objects.all().values(
+        'name',
         'x_position',
-        'y_position'
-    ).get(name=satellite_name)
+        'y_position',
+    )
+    
+    return {
+        satellite['name']: {
+            'x_position': satellite['x_position'],
+            'y_position': satellite['y_position'],
+        }
+        for satellite in satellites
+    }

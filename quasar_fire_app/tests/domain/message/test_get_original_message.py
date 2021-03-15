@@ -1,5 +1,10 @@
 from django.test import TestCase
 
+from quasar_fire_app.common.errors import (
+    ERROR_AMBIGUOUS_WORD,
+    ERROR_INVALID_MESSAGES_LENGTH,
+    ERROR_NOT_RECEIVED_WORD,
+)
 from quasar_fire_app.domain.message import get_original_message
 
 
@@ -18,7 +23,7 @@ class TestCaseGetOriginalMessage(TestCase):
         with self.assertRaises(Exception) as error:
             get_original_message(messages)
         
-        assert error.exception.args[0] == 'The messages received by the satellites does not have the same length.'
+        assert error.exception.args[0] == ERROR_INVALID_MESSAGES_LENGTH
     
     def test_should_raise_exception_for_missing_word_in_all_messages(self):
         """
@@ -33,7 +38,7 @@ class TestCaseGetOriginalMessage(TestCase):
         with self.assertRaises(Exception) as error:
             get_original_message(messages)
 
-        assert error.exception.args[0] == 'The word at this position could not be received by any satellite.'
+        assert error.exception.args[0] == ERROR_NOT_RECEIVED_WORD
     
     def test_should_raise_exception_for_messages_with_different_word_in_same_position(self):
         """
@@ -48,7 +53,7 @@ class TestCaseGetOriginalMessage(TestCase):
         with self.assertRaises(Exception) as error:
             get_original_message(messages)
 
-        assert error.exception.args[0] == 'Different words were received by the satellites at this position.'
+        assert error.exception.args[0] == ERROR_AMBIGUOUS_WORD
     
     def test_should_return_original_message(self):
         """

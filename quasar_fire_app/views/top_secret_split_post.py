@@ -8,7 +8,10 @@ from quasar_fire_app.server.set_distance_and_message import SetDistanceAndMessag
 
 
 class TopSecretSplitPostAPIView(APIView):
-    """POST: Update the distance fromt the transmitter to the satellite."""
+    """
+    POST: Update the distance from the transmitter to a
+    satellite and the message received by it.
+    """
     
     serializer_class = SatelliteSplitSerializer
 

@@ -1,3 +1,4 @@
+from quasar_fire_app.common.errors import ERROR_INVALID_LOCATION
 from quasar_fire_app.domain.satellite import get_coordinates_by_satellite_name
 from quasar_fire_app.utils.math import (
     is_close,
@@ -36,13 +37,18 @@ def get_transmitter_location(distances):
     Returns:
         tuple(float, float): (X,Y) coordinates of the transmitter.
     """
+    coordinates = get_coordinates_by_satellite_name()
+    kenobi_coordinates = coordinates['kenobi']
+    skywalker_coordinates = coordinates['skywalker']
+    sato_coordinates = coordinates['sato']
+
     # We assume that the first distance retrieved is the distance from the transmitter to Kenobi
-    x1,y1 = get_coordinates_by_satellite_name('kenobi')
+    x1,y1 = kenobi_coordinates['x_position'], kenobi_coordinates['y_position']
     # We assume that the second distance retrieved is the distance from the transmitter to Skywalker
-    x2,y2 = get_coordinates_by_satellite_name('skywalker')
+    x2,y2 = skywalker_coordinates['x_position'], skywalker_coordinates['y_position']
     # We assume that the third distance retrieved is the distance from the transmitter to Sato
-    x3,y3 = get_coordinates_by_satellite_name('sato')
-    
+    x3,y3 = sato_coordinates['x_position'], sato_coordinates['y_position']
+
     r1 = distances[0]
     r2 = distances[1]
     r3 = distances[2]
@@ -58,12 +64,12 @@ def get_transmitter_location(distances):
     y = (C*D - A*F) / (B*D - A*E)
 
     # Check that the retrieved value (x,y) is enough approximated 
-    # to each distance formula -> (x-xi)**2+(y-yi)**2 == ri**2
+    # to each distance formula -> (x - xi)**2 + (y - yi)**2 == ri**2
     if not (
-        is_close((x-x1)**2+(y-y1)**2, r1**2)
-        and is_close((x-x2)**2+(y-y2)**2, r2**2)
-        and is_close((x-x3)**2+(y-y3)**2, r3**2)
+        is_close((x - x1)**2 + (y - y1)**2, r1**2)
+        and is_close((x - x2)**2 + (y - y2)**2, r2**2)
+        and is_close((x - x3)**2 + (y - y3)**2, r3**2)
     ):
-        raise Exception('The retrieved value is not at the specified distances from the satellites.')
+        raise Exception(ERROR_INVALID_LOCATION)
     
     return round(x, ROUND_SIGNIFICANT_DECIMALS), round(y, ROUND_SIGNIFICANT_DECIMALS)

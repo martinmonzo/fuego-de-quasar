@@ -13,7 +13,7 @@ def is_there_any_unknown_message(satellites_info):
             - True if there is at least one satellite that has not received any message.
             - False otherwise.
     """
-    return satellites_info.filter(message_received__isnull=True).count() > 0
+    return satellites_info.filter(message_received__isnull=True).exists()
 
 
 def get_messages(satellites_info):

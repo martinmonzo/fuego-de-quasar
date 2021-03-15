@@ -11,7 +11,7 @@ def is_there_any_unknown_distance(satellites_info):
             - True if there is at least one satellite whose distance has not been discovered.
             - False otherwise.
     """
-    return satellites_info.filter(distance_from_transmitter__isnull=True).count() > 0
+    return satellites_info.filter(distance_from_transmitter__isnull=True).exists()
 
 
 def get_distances(satellites_info):
@@ -40,7 +40,7 @@ def get_distance_by_satellite(satellites, satellite_name):
         - satellite_name (str): name of the satellite to filter by.
     
     Returns:
-        A float that represents the distance from the transmitter to the desired satellite.
+        float: the distance from the transmitter to the desired satellite.
     """
     satellite = next((sat for sat in satellites if sat['name'] == satellite_name), {})
     return satellite['distance']
